@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import FormatedDay from "./FormatedDay";
 import "./Weather.css";
 
 export default function Weather(props) {
@@ -12,7 +13,7 @@ export default function Weather(props) {
       icon: response.data.weather[0].icon,
       humidity: Math.round(response.data.main.humidity),
       temperature: Math.round(response.data.main.temp),
-      //time: new DateUtil(new Date(response.data.dt * 1000)).dayTime(),
+      time: new Date(response.data.dt * 1000),
       wind: Math.round(response.data.wind.speed),
       city: response.data.name,
     });
@@ -23,25 +24,27 @@ export default function Weather(props) {
     return (
       <div className="Weather">
         <div className="CitySearch">
-          <div className="row">
-            <div className="col-9">
-              <form className="search">
+          <form className="search">
+            <div className="row">
+              <div className="col-9">
                 <input
                   type="text"
                   placeholder="Enter a city here"
                   autoFocus="on"
                 />
-              </form>
+              </div>
+              <div className="col-3">
+                <button className="btn btn-primary w-100">Search</button>
+              </div>
             </div>
-            <div className="col-3">
-              <button className="btn btn-primary w-100">Search</button>
-            </div>
-          </div>
+          </form>
         </div>
         <div className="CurrentWeather">
           <h1>{weather.city}</h1>
           <ul>
-            <li>Monday, 15:20</li>
+            <li>
+              <FormatedDay date={weather.time} />
+            </li>
             <li>{weather.description}</li>
           </ul>
           <div className="row">
