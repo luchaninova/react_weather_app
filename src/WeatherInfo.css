@@ -17,11 +17,15 @@
   font-weight: 450;
 }
 
+.WeatherInfo canvas {
+  margin-left: 25px;
+}
+
 .WeatherInfo .temperature {
   font-size: 64px;
   font-weight: 500;
   line-height: 1;
-  margin: 15px 0;
+  margin-right: 10px;
 }
 
 .WeatherInfo .unit {
