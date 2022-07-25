@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import WeatherIcon from "./WeatherIcon";
+import React, { useState, useEffect } from "react";
 import WeatherForcastDay from "./WeatherForcastDay";
 import axios from "axios";
 import "./WeatherForcast.css";
@@ -12,27 +11,11 @@ export default function WeatherForcast(props) {
     setLoaded(true);
   }
 
-  if (loaded) {
-    return (
-      <div className="WeatherForcast">
-        <WeatherForcastDay />
-        <div className="row">
-          <div className="col">
-            <div className="WeatherForcast-day">{forcast[0].dt}</div>
-            <WeatherIcon data={forcast[0].weather[0].icon} size={42} />
-            <div className="WeatherForcast-temperature">
-              <span className="WeatherForcast-temperature-max">
-                {Math.round(forcast[0].temp.max)}°
-              </span>
-              <span className="WeatherForcast-temperature-min">
-                {Math.round(forcast[0].temp.min)}°
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coordinates]);
+
+  function load() {
     const apiKey = `b26c02eb24c77058192e800dec3f2e04`;
     const latitude = props.coordinates.lat;
     const longitude = props.coordinates.lon;
@@ -40,5 +23,27 @@ export default function WeatherForcast(props) {
 
     axios.get(apiUrl).then(handleResponse);
     return null;
+  }
+
+  if (loaded) {
+    return (
+      <div className="WeatherForcast">
+        <div className="row">
+          {forcast.map(function (dailyForcast, index) {
+            if (index < 5) {
+              return (
+                <div className="col" key={index}>
+                  <WeatherForcastDay data={dailyForcast} />
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
+        </div>
+      </div>
+    );
+  } else {
+    load();
   }
 }
