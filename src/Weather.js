@@ -54,7 +54,7 @@ export default function Weather(props) {
                 />
               </div>
               <div className="col-sm-3">
-                <button className="btn btn-primary w-100">Search</button>
+                <button className="btn btn-primary">Search</button>
               </div>
             </div>
           </form>
